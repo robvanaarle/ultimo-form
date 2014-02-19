@@ -1,0 +1,31 @@
+{
+    "name": "robvanaarle/ultimo-form",
+    "description": "Simple HTTP form handling",
+    "type": "library",
+    "keywords": [
+        "http",
+        "form",
+        "validation"
+    ],
+    "license": "BSD-3-Clause",
+    "authors": [
+	  		{
+	    	  "name": "Rob van Aarle"
+	  		}
+	  ],
+    "repositories": [
+      	{
+        	"type": "vcs",
+        	"url": "https://github.com/robvanaarle/ultimo-validation"
+      	}
+    ],
+    "require": {
+        "robvanaarle/ultimo-validation": "dev-master"
+    },
+    "autoload": {
+    		"psr-4": {
+       			"ultimo\\": "src/ultimo/"
+    		}
+  }
+}
+
