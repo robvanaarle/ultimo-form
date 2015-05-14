@@ -19,6 +19,13 @@ class Form implements \ArrayAccess {
   protected $validationChains = array();
   
   /**
+   * Whether a field value show not be validated on empty. A hashtable with the
+   * fieldnames as key and a boolean indicating whether empty is allowed as value.
+   * @var array
+   */
+  protected $allowEmpties = array();
+  
+  /**
    * The namespaces to look for a validator if it is appended without a fully
    * qualified name.
    * @var array
@@ -179,6 +186,17 @@ class Form implements \ArrayAccess {
   }
   
   /**
+   * Sets whether a field should be validated on empty value.
+   * @param string $fieldName The name of the field.
+   * @param boolean $flag Whether a field should be validated on empty value.
+   * @return Form This instance for fluid design.
+   */
+  public function setAllowedEmpty($fieldName, $flag=true) {
+    $this->allowEmpties[$fieldName] = $flag;
+    return $this;
+  }
+  
+  /**
    * Appends a validator for a field.
    * @param string $fieldName The name of the field to append the validator to.
    * @param string $validatorQName The qualified name of the validator.
@@ -201,6 +219,10 @@ class Form implements \ArrayAccess {
   public function validate() {
     $valid = true;
     foreach ($this->validationChains as $fieldName => $chain) {
+      if ($this[$fieldName] == '' && isset($this->allowEmpties[$fieldName]) && $this->allowEmpties[$fieldName]) {
+        continue;
+      }
+      
       if (!$chain->isValid($this[$fieldName])) {
         $valid = false;
       }
